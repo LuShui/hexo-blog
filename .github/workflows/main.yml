@@ -10,7 +10,6 @@ jobs:
     steps:
       - name: Checkout Respository master branch        #actions/checkout checkout到$GITHUB_WORKSPACE下的repo  默认为当前repo
         uses: actions/checkout@master
-
       - name: Setup Node.js 16.x    # 安装node14
           uses: actions/setup-node@master
           with:
@@ -23,7 +22,6 @@ jobs:
             key: ${{ runner.os }}-node-${{ hashFiles('**/[package-lock|yarn.lock].json') }}  # 这里根据用的包管理工具切换lock文件，hashFile会为匹配的文件计算SHA-256哈希值
             restore-keys: |
               ${{runner.os}}-node-
-
       - name: Setup Hexo Dependencies # 安装hexo-cli 并且安装依赖
         run: |
           npm install hexo-cli -g
@@ -36,7 +34,6 @@ jobs:
           echo "$HEXO_DEPLOY_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan github.com >> ~/.ssh/know_hosts
-
       - name: Setup Git Infomation   # hexo deploy必须有git user.name和git user.email才能运行
         run: |
           git config --global user.name "lushui"
