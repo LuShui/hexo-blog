@@ -1,4 +1,5 @@
-name: Deploy  #随便取
+name: build-deploy  #随便取
+
 on:
   push:
     branches:  # 当main或者master分支被push到远端仓库的时候，触发ci
@@ -10,18 +11,18 @@ jobs:
       - name: Checkout Respository master branch        #actions/checkout checkout到$GITHUB_WORKSPACE下的repo  默认为当前repo
         uses: actions/checkout@master
 
-    - name: Setup Node.js 16.x    # 安装node14
-        uses: actions/setup-node@master
-        with:
-          node-version: '16.13.2'​
+      - name: Setup Node.js 16.x    # 安装node14
+          uses: actions/setup-node@master
+          with:
+            node-version: '16.13.2'​
       - name: Cache node modules  # 缓存依赖增加工作流的执行速度
-        uses: actions/cache@v1
-        id: cache
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/[package-lock|yarn.lock].json') }}  # 这里根据用的包管理工具切换lock文件，hashFile会为匹配的文件计算SHA-256哈希值
-          restore-keys: |
-            ${{runner.os}}-node-
+          uses: actions/cache@v1
+          id: cache
+          with:
+            path: node_modules
+            key: ${{ runner.os }}-node-${{ hashFiles('**/[package-lock|yarn.lock].json') }}  # 这里根据用的包管理工具切换lock文件，hashFile会为匹配的文件计算SHA-256哈希值
+            restore-keys: |
+              ${{runner.os}}-node-
 
       - name: Setup Hexo Dependencies # 安装hexo-cli 并且安装依赖
         run: |
